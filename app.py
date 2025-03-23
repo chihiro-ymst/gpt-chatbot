@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import openai
 import os
+from dotenv import load_dotenv  # ← これ追加！
 
-openai.api_key = "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"
-app = Flask(__name__)
+load_dotenv()  # ← .envファイルを読み込む！
+
+openai.api_key = os.getenv("OPENAI_API_KEY")  # ← ここで環境変数から読み込み！
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
@@ -66,3 +68,5 @@ def chat():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 3000))
     app.run(debug=True, host="0.0.0.0", port=port)
+
+    openai.api_key = os.getenv("OPENAI_API_KEY")
